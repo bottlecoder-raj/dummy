@@ -1,0 +1,32 @@
+#!/bin/bash
+
+# 1. Clear the terminal
+clear
+
+# 2. Show "Screen Cleared" on OLED and then clear it
+python3 - << 'EOF'
+from luma.core.interface.serial import i2c
+from luma.oled.device import ssd1306
+from PIL import Image, ImageDraw, ImageFont
+import time
+
+serial = i2c(port=1, address=0x3C)
+device = ssd1306(serial)
+
+# Prepare image
+width, height = device.width, device.height
+image = Image.new("1", (width, height))
+draw = ImageDraw.Draw(image)
+
+# --- Show message ---
+draw.text((0, 0), "Screen Cleared", fill=255)
+device.display(image)
+
+time.sleep(1)   # Show message for 1 second
+
+# --- Clear screen ---
+image = Image.new("1", (width, height))
+draw = ImageDraw.Draw(image)
+draw.rectangle((0, 0, width, height), fill=0)
+device.display(image)
+EOF
