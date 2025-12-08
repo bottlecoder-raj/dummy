@@ -1,0 +1,1 @@
+draw.rounded_rectangle((10, 10, 60, 60), radius=12, outline=255, width=2)
