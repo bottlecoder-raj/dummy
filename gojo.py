@@ -10,58 +10,36 @@ def init_oled():
 
 device = init_oled()
 
-# Angry Face (Robot Eyes Style)
-def angry_face():
-    image = Image.new("1", (device.width, device.height))
+image = Image.new("1", (device.width, device.height))
     draw = ImageDraw.Draw(image)
 
-    # Robot screen outline
-    draw.rectangle((10, 10, 118, 54), outline=255, width=2)
+    # -------- Robot Screen Border (rounded rectangle) --------
+    draw.rounded_rectangle((5, 5, 122, 59), radius=10, outline=255, width=2)
 
-    # Slanted triangle eyes (angry)
-    draw.polygon([(35, 25), (50, 20), (50, 32)], outline=255, fill=255)
-    draw.polygon([(90, 20), (75, 25), (75, 32)], outline=255, fill=255)
+    # -------- Angry Eyes (Polygon style) --------
+    # Left eye (slanted)
+    draw.polygon([
+        (30, 25),  # left bottom
+        (45, 15),  # top right
+        (50, 25),  # right bottom
+    ], fill=255)
 
-    # Angry curved mouth
-    draw.arc((45, 32, 85, 60), start=200, end=340, fill=255, width=3)
+    # Right eye (slanted)
+    draw.polygon([
+        (78, 15),  # top left
+        (93, 25),  # right bottom
+        (73, 25),  # left bottom
+    ], fill=255)
+
+    # -------- Angry Mouth (sharp polygon shape) --------
+    draw.polygon([
+        (45, 45),  # left
+        (55, 40),  # upper left
+        (70, 40),  # upper right
+        (80, 45),  # right
+        (70, 50),  # bottom right
+        (55, 50),  # bottom left
+    ], fill=255)
 
     device.display(image)
-
-# Happy Face (Robot Eyes Style)
-def happy_face():
-    image = Image.new("1", (device.width, device.height))
-    draw = ImageDraw.Draw(image)
-    draw.ellipse((30, 22, 40, 32), outline=255, fill=255)
-    draw.ellipse((80, 22, 90, 32), outline=255, fill=255)
-    draw.arc((40, 30, 85, 55), start=0, end=180, fill=255, width=3)
-    device.display(image)
-
-# Neutral Face
-def neutral_face():
-    image = Image.new("1", (device.width, device.height))
-    draw = ImageDraw.Draw(image)
-    draw.ellipse((30, 22, 40, 32), outline=255, fill=255)
-    draw.ellipse((80, 22, 90, 32), outline=255, fill=255)
-    draw.line((45, 45, 80, 45), fill=255, width=3)
-    device.display(image)
-
-# Sad Face
-def sad_face():
-    image = Image.new("1", (device.width, device.height))
-    draw = ImageDraw.Draw(image)
-    draw.ellipse((30, 22, 40, 32), outline=255, fill=255)
-    draw.ellipse((80, 22, 90, 32), outline=255, fill=255)
-    draw.arc((40, 45, 85, 65), start=180, end=360, fill=255, width=3)
-    device.display(image)
-
-# Loop through all faces
-if __name__ == "__main__":
-    while True:
-        angry_face()
-        time.sleep(1)
-        happy_face()
-        time.sleep(1)
-        neutral_face()
-        time.sleep(1)
-        sad_face()
-        time.sleep(1)
+sleep(3)
